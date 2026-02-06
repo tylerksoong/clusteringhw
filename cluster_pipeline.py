@@ -51,7 +51,6 @@ def pipeline(X, k,distance_metric="euclidean", linkage_metric="ward"):
     fig, axes = plt.subplots(1,3)
 
     axes[0].plot(list(range(2,11)), inertia_vals)
-
     
     dendrogram(
         Z,
