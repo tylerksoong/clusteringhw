@@ -6,8 +6,6 @@ import matplotlib.pyplot as plt
 
 from scipy.cluster.hierarchy import dendrogram, linkage, fcluster
 
-
-
 X, _ = make_blobs(n_samples=300, centers=4, cluster_std=0.60, random_state=0)
 
 def pipeline(X, k,distance_metric="euclidean", linkage_metric="ward"): 
@@ -27,11 +25,8 @@ def pipeline(X, k,distance_metric="euclidean", linkage_metric="ward"):
     
     dendrogram(
         Z,
-        ax=axes[1],
-        labels=df['hierarchal_labels']
+        ax=axes[1]
     )
 
     plt.show()
     return df
-
-print(pipeline(X, 4))
