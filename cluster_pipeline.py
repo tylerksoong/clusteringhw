@@ -3,11 +3,15 @@ from sklearn_extra.cluster import KMedoids
 from sklearn.datasets import make_blobs
 from sklearn.metrics import silhouette_score
 
+from kclustering import kmeans
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
 from scipy.cluster.hierarchy import dendrogram, linkage, fcluster
+
+X, _ = make_blobs(100)
 
 def pipeline(X, k,distance_metric="euclidean", linkage_metric="ward"): 
     #perform k_means and linkage on the data set
@@ -20,7 +24,7 @@ def pipeline(X, k,distance_metric="euclidean", linkage_metric="ward"):
 
     #preparing output data with new cluster labels.
     df = pd.DataFrame(X)
-    df['kmeans'] = k_model.labels_
+    df['kmeans'] = kmeans(X, k)
     df['kmedoids'] = km_model.labels_
     df['hierarchal'] = np.array(fcluster(Z, t=k, criterion='maxclust')) - 1
 
@@ -50,7 +54,7 @@ def pipeline(X, k,distance_metric="euclidean", linkage_metric="ward"):
 
     fig, axes = plt.subplots(1,3)
 
-    axes[0].plot(list(range(2,11)), inertia_vals)
+    axes[0].scatter(df.iloc[:,0], df.iloc[:,1], c=df['kmeans'])
     
     dendrogram(
         Z,
@@ -61,3 +65,5 @@ def pipeline(X, k,distance_metric="euclidean", linkage_metric="ward"):
 
     plt.show()
     return df
+
+pipeline(pd.DataFrame(X), 3)
