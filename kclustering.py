@@ -10,16 +10,25 @@ def kmeans(X: pd.DataFrame, k:int):
 
     # Attach them as a new column
     data = np.column_stack((data, labels))
-    print(data)
 
-    
-    for i in range(20):
+    previous = [0]
+    centers = [1]
+    n_iter = 0
+
+    while not np.allclose(previous, centers):
+        n_iter += 1
+        for i in range(k):
+            count = np.sum(data[:,-1] == i)
+            if count == 0:
+                data[np.random.randint(0,num_samples)][-1] = i
+
+        previous = centers
         centers = [np.mean(data[data[:,-1] == i][:,:num_features], axis=0) for i in range(k)]
-        print(centers)
         for datapoint in data:
             distances = [np.linalg.norm( center - datapoint[:num_features]) for center in centers]
             datapoint[-1] = np.argmin(distances) 
 
+    print(f'Number of iterations: {n_iter}')
     return data[:,-1]
 
 

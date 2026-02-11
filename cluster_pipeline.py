@@ -11,8 +11,6 @@ import matplotlib.pyplot as plt
 
 from scipy.cluster.hierarchy import dendrogram, linkage, fcluster
 
-X, _ = make_blobs(100)
-
 def pipeline(X, k,distance_metric="euclidean", linkage_metric="ward"): 
     #perform k_means and linkage on the data set
     k_model = KMeans(n_clusters=k)
@@ -66,4 +64,5 @@ def pipeline(X, k,distance_metric="euclidean", linkage_metric="ward"):
     plt.show()
     return df
 
+X,_ = make_blobs(n_samples=400, n_features=3, cluster_std=2)
 pipeline(pd.DataFrame(X), 3)
