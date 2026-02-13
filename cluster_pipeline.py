@@ -2,6 +2,7 @@ from sklearn.cluster import KMeans
 from sklearn_extra.cluster import KMedoids
 from sklearn.datasets import make_blobs
 from sklearn.metrics import silhouette_score
+from sklearn.preprocessing import StandardScaler
 
 from kclustering import kmeans
 
@@ -10,6 +11,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from scipy.cluster.hierarchy import dendrogram, linkage, fcluster
+
+X, _ = make_blobs(100)
 
 def pipeline(X, k,distance_metric="euclidean", linkage_metric="ward"): 
     #perform k_means and linkage on the data set
@@ -49,7 +52,6 @@ def pipeline(X, k,distance_metric="euclidean", linkage_metric="ward"):
         inertia_vals.append(k_model.inertia_)
         silhouette_vals.append(silhouette_score(X, k_model.labels_))
 
-
     fig, axes = plt.subplots(1,3)
 
     axes[0].scatter(df.iloc[:,0], df.iloc[:,1], c=df['kmeans'])
@@ -62,7 +64,6 @@ def pipeline(X, k,distance_metric="euclidean", linkage_metric="ward"):
     axes[2].imshow(consensus_matrix)
 
     plt.show()
-    return df
+    return df, inertia_vals, silhouette_vals
 
-X,_ = make_blobs(n_samples=400, n_features=3, cluster_std=2)
 pipeline(pd.DataFrame(X), 3)
